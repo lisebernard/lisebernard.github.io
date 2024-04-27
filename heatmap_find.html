@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_5f31a8284a939134f77ce56be7bff82f {
+                    position: absolute;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                    z-index: 1;
+                }
+
+.leaflet-tooltip {
+    position: absolute;
+    padding: 6px;
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    color: #222;
+    white-space: break-spaces;
+    width: 200px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+            </style>
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+</head>
+<body style="background-color: grey;">
+
+<div style="position: fixed; z-index: 2; background-color: grey; width: 100%">
+    <h1 style="color: black; font-weight: bold; position: relative; bottom:10px;"> Carte thermique des lieux de production </h1>
+
+    <text style="font-size: 15px; color: black; bottom:10px; position: relative;"> Une couleur plus claire indique une plus grande concentration de textiles</text> 
+
+</div>
+
+<img src="https://www.leggiscomodo.org/wp-content/themes/scomodo/assets/img/logo_white.svg" style="z-index: 2; background-color: transparent; width: 10%; position: fixed; bottom: 5px; left:5px;">
+    
+            <div class="folium-map" id="map_5f31a8284a939134f77ce56be7bff82f" ></div>
+        
+</body>
+<script>
+    
+    
+            var map = L.map(
+                "map_5f31a8284a939134f77ce56be7bff82f",
+                {
+                    center: [-19, -70],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 4,
+                    zoomControl: false,
+                    preferCanvas: false,
+                }
+            );
+
+        
+    
+            var tile_layer_de440d60ba3a74d477a21f87996b6ad8 = L.tileLayer(
+                "https://api.mapbox.com/styles/v1/sdrogolover/clbqph58m005o14peywwumib5/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2Ryb2dvbG92ZXIiLCJhIjoiY2t3ejl2aHZsMDNhNTJ2bzVrbzltOWpoNCJ9.K3BzOmLokejL_T7NkQW0Ew",
+                {"attribution": "me", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map);
+        
+    
+            var heat_map = L.heatLayer(
+                [[-16.0438951, -68.6849563, 1], [-15.8744353, -67.5002267, 2], [-14.0923743, -70.3418944, 2], [-15.9525139, -68.2561574, 2], [-11.7738789, -77.1753353, 2], [-18.9212459, -66.7809828, 1], [-18.4785288, -70.3211394, 3], [-18.472858950000003, -70.31421133378686, 17], [-14.0, -74.0, 1], [-18.0133407, -66.63559007390992, 4], [-21.7905405, -63.5551953, 2], [-16.9058093, -68.1154879, 1], [-20.3687897, -65.4653828, 3], [-19.7872914, -65.8350008, 1], [-18.9021565, -66.7750462, 1], [-11.5627697, -77.2699958, 1], [-15.1762293, -68.995189, 8], [-18.4603006, -66.4437449, 1], [-22.9528045, -68.2343413, 3], [-17.841736750000003, -68.40972269401914, 1], [-13.5170887, -71.9785356, 2], [-15.6613873, -69.128994, 1], [-19.7033667, -66.369153, 3], [-14.338611, -75.648333, 1], [-19.782784, -66.3477084, 13], [-16.4955455, -68.1336229, 2], [-15.76696175, -69.68886303783182, 4], [-12.0621065, -77.0365256, 16], [-18.7642278, -64.6193991, 17], [-18.4800876, -70.3240264, 2], [-14.8277203, -74.9370624, 6], [-18.107245, -64.908006, 1], [-18.666667, -67.666667, 2], [-19.1962117, -67.0617615, 2], [-13.8350425, -76.2496219, 2], [-10.6751894, -77.8185202, 1], [-19.0157021, -65.5343736, 2], [-19.5892896, -65.7534713, 3], [-19.573192, -67.371148, 4], [-18.5225244, -70.1635329, 19], [-22.8964646, -68.2088973, 5], [-27.128500000000003, -109.33602969583332, 505], [-18.8062996, -65.5117483, 3], [-18.3702844, -66.3122154, 1], [-18.0692715, -66.3844024, 1], [-19.45967195, -67.4843027437667, 2], [-18.5183473, -70.1771824, 1], [-22.910832, -68.2001376, 2], [-17.3329148, -67.7389238, 1], [-22.9193901, -68.19822, 2], [-12.1484167, -76.8316587, 1], [-17.580030899999997, -66.6634004866508, 2], [-19.1824227, -64.9150438, 1], [-19.2201563, -65.82247, 2], [-20.3200138, -65.709383, 4], [-8.1116778, -79.0287742, 2], [-15.0613151, -69.2697483, 1]]
+,
+                {"blur": 1, "gradient": {"0.4": "blue", "0.8": "orange", "1": "yellow"}, "maxZoom": 18, "minOpacity": 0.5, "radius": 7}
+            ).addTo(map);
+
+        
+            var coord = heat_map._latlngs
+
+            var descrizione = fetch("https://raw.githubusercontent.com/lisebernard/lisebernard.github.io/main/data/data_map_find.json").then( response => response.json().then(data => descrizione = data))
+
+            async function getData(url) {
+              var response = fetch(url)
+
+              var nuovo = response.then(
+                e => e.json())
+
+              return nuovo
+            };
+
+            (async () => {
+
+                var name = ['Achacachi', 'Achiri', 'Acora', 'Amaguaya', 'Ancón', 'Andamarca', 'Arica', 'Arica City Center', 'Ayacucho', 'Bolívar', 'Caiza', 'Calamarca', 'Calcha', 'Carma', 'Challapata', 'Chancay', 'Charazani', 'Chayanta', 'Coyo', 'Curahuara de Carangas', 'Cusco', 'Escoma', 'Estacion Yura', 'Ica', 'Kilpani', 'La Paz', 'Lago Titicaca (Sector peruano)', 'Lima Metropolitana', 'Mojocoya', 'Morro de Arica', 'Nasca', 'Omereque', 'Oruro', 'Pampa Aullagas', 'Paracas', 'Paramonga', 'Potolo', 'Potosí', 'Puqui', 'Quebrada del Diablo', 'Quitor', 'Rapa Nui', 'Ravelo', 'Rio Verde Quila Quila', 'Sacaca', 'Salinas de Garcí Mendoza', 'San Miguel de Azapa', 'San Pedro de Atacama', 'Sica Sica', 'Solcor', 'Tambo Inga', 'Tapacarí', 'Tarabuco', 'Tinguipaya', 'Toropalca', 'Trujillo', 'Ulla Ulla']
+
+
+                for (let index=0; index<coord.length;index++) {
+                var lat = coord[index][0];
+                var lon = coord[index][1];
+                var missing = coord[index][2];
+                var desc = name[index];
+
+                var marker = L.circle([lat,lon],{
+                    opacity:0.0
+                });
+
+                marker.bindTooltip(`<div> <font size="3" > <b> Lieu :</b> ${desc}
+                    <b>Nombre de textile provenant de ce lieu : </b> ${missing}</font> </div>`);
+                marker.addTo(map)};
+            })();
+        
+</script>
+</html>
